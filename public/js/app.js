@@ -64171,6 +64171,43 @@ window.serializeForm = function (data) {
   return convertedJSON;
 };
 
+window.handleErrors = function (error) {
+  var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'p';
+  if (!error) return;
+
+  if (error.message && error.error == true) {
+    return alert(error.message);
+  }
+
+  Array.from(document.getElementsByClassName('validate')).map(function (e, f) {
+    e.innerHTML = '';
+  });
+  Object.entries(error.errors).map(function (a, b, c) {
+    var ele = document.querySelector('.validate.' + a[0]);
+
+    if (ele) {
+      a[1].map(function (e, f) {
+        ele.innerHTML = e; // var node = document.createElement("p");                 
+        // var textnode = document.createTextNode(e);         
+        // node.appendChild(textnode);
+        // ele.appendChild(node);
+      });
+    } else {
+      element = document.createElement(e);
+      element.setAttribute('class', 'validate text-danger ' + a[0]);
+      a[1].map(function (e, f) {
+        var node = document.createElement("p");
+        var textnode = document.createTextNode(e);
+        node.appendChild(textnode);
+        element.appendChild(node);
+      }); // element.append(a[1][0]);           
+
+      var input = document.querySelector('[name="' + a[0] + '"]');
+      if (input) input.parentNode.insertBefore(element, input.nextSibling);
+    }
+  });
+};
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -64568,7 +64605,7 @@ function (_Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return About; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Register; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -64581,47 +64618,49 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 
-var About =
+
+var Register =
 /*#__PURE__*/
 function (_Component) {
-  _inherits(About, _Component);
+  _inherits(Register, _Component);
 
-  function About(props) {
-    _classCallCheck(this, About);
+  function Register(props) {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(About).call(this, props));
+    _classCallCheck(this, Register);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Register).call(this, props));
+    _this.OnSubmit = _this.OnSubmit.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+    return _this;
   }
 
-  _createClass(About, [{
+  _createClass(Register, [{
     key: "OnSubmit",
     value: function OnSubmit(event) {
-      var _this = this;
-
+      // console.log(event)
+      event.preventDefault();
       var data = serializeForm(event.target);
-      console.log(data);
-      axios.post('/register', data).then(function (res) {
-        console.log(res);
-
-        _this.myFormRef.reset();
-      }).catch(function (error) {
-        handleErrors(error); // this.setState({'processing':false});    
+      axios.post('/user-register', data).then(function (res) {
+        document.getElementById("successAfter").classList.add("alert-" + res.data.class);
+        document.getElementById("successAfter").style.display = "block";
+        document.getElementById("successMsg").innerHTML = res.data.message;
+        document.getElementById("formData").reset();
+      }).catch(function (error) {//handleErrors(error);
+        // this.setState({'processing':false});    
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "card bg-light"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("article", {
@@ -64629,14 +64668,26 @@ function (_Component) {
         style: {
           maxWidth: '400px'
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        id: "successAfter",
+        className: "alert alert-dismissable",
+        style: {
+          display: 'none'
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "button",
+        className: "close",
+        "data-dismiss": "alert",
+        "aria-label": "Close"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        "aria-hidden": "true"
+      }, "\xD7")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("strong", {
+        id: "successMsg"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", {
         className: "card-title mt-3 text-center"
       }, "Create Account"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        ref: function ref(el) {
-          return _this2.myFormRef = el;
-        },
-        onSubmit: this.OnSubmit.bind(this),
-        action: "javascript::void(0)"
+        id: "formData",
+        onSubmit: this.OnSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -64746,7 +64797,7 @@ function (_Component) {
     }
   }]);
 
-  return About;
+  return Register;
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 

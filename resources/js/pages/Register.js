@@ -1,21 +1,26 @@
 import React, { Component } from 'react';
 
-export default class About extends Component {
+export default class Register extends Component {
 
 	  constructor(props) {
-        super(props);   
+        super(props); 
+        this.OnSubmit=this.OnSubmit.bind(this);  
     }
 
     OnSubmit(event) {
+        // console.log(event)
+        event.preventDefault();
     	var data = serializeForm(event.target);
-          console.log(data)
-    	axios.post('/register',data)
+    	axios.post('/user-register',data)
         .then(res=>{
-        	console.log(res)
-            this.myFormRef.reset();
+            document.getElementById("successAfter").classList.add("alert-"+res.data.class);
+            document.getElementById("successAfter").style.display = "block";
+            document.getElementById("successMsg").innerHTML =res.data.message;
+            document.getElementById("formData").reset();
+
         }) 
         .catch(error=>{
-            handleErrors(error);
+            //handleErrors(error);
             // this.setState({'processing':false});    
         })
     }
@@ -24,9 +29,19 @@ export default class About extends Component {
         return (
              <div className="card bg-light">
 <article className="card-body mx-auto" style={{maxWidth: '400px'}}>
+
+     <div id="successAfter" className="alert alert-dismissable" style={{display: 'none'}}>
+        <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong id="successMsg">
+            
+        </strong>
+    </div>
+
 	<h4 className="card-title mt-3 text-center">Create Account</h4>
 	
-<form ref={(el) => this.myFormRef = el} onSubmit={this.OnSubmit.bind(this)} action="javascript::void(0)">
+<form id="formData" onSubmit={this.OnSubmit}>
 	
 	<div className="form-group input-group">
 		<div className="input-group-prepend">

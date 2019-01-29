@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Web;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Model\User;
+use Illuminate\Http\Request;
 
 class ContactUsController extends Controller
 {
@@ -35,9 +36,25 @@ class ContactUsController extends Controller
      */
     public function store(Request $request)
     {
-        //
-
-        return $request->all();
+        
+        $this->validate($request,[
+            'name'=>'required',
+            'email'=>'required',
+            'job_type'=>'required',
+            'phone'=>'required',
+            'password'=>'required',
+        ]);
+        $user = new User;
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->job_type = $request->job_type;
+        $user->phone = $request->phone;
+        $user->country_code = $request->country_code;
+        $user->password = $request->password;
+        if($user->save()){
+        return response()->json(['message'=>'Successfull Register', 'class'=>'success']); 
+        }
+        return response()->json(['message'=>'somethig went wrong', 'class'=>'error']);
     }
 
     /**
