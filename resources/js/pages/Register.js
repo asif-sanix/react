@@ -20,8 +20,23 @@ export default class Register extends Component {
 
         }) 
         .catch(error=>{
-            //handleErrors(error);
-            // this.setState({'processing':false});    
+            console.log(error.response.data.errors)
+
+         Object.keys(error.response.data.errors).map(function(a){  
+                //console.log(error.response.data.errors[a]);
+                 var element = document.querySelector("small." + a)
+                console.log(element)
+
+
+                // a[1].map(function(b){
+                //     console.log(b)
+                //     console.log(a[0])
+                // })  
+
+
+                 element.innerHTML = error.response.data.errors[a]
+            })
+          
         })
     }
 
@@ -48,6 +63,7 @@ export default class Register extends Component {
 		    <span className="input-group-text"> <i className="fa fa-user"></i> </span>
 		 </div>
         <input name="name" className="form-control" placeholder="Full name" type="text" />
+        <small className="text-danger name error"></small>
     </div> 
     <div className="form-group input-group">
     	<div className="input-group-prepend">

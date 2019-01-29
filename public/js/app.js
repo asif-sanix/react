@@ -64171,43 +64171,6 @@ window.serializeForm = function (data) {
   return convertedJSON;
 };
 
-window.handleErrors = function (error) {
-  var e = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'p';
-  if (!error) return;
-
-  if (error.message && error.error == true) {
-    return alert(error.message);
-  }
-
-  Array.from(document.getElementsByClassName('validate')).map(function (e, f) {
-    e.innerHTML = '';
-  });
-  Object.entries(error.errors).map(function (a, b, c) {
-    var ele = document.querySelector('.validate.' + a[0]);
-
-    if (ele) {
-      a[1].map(function (e, f) {
-        ele.innerHTML = e; // var node = document.createElement("p");                 
-        // var textnode = document.createTextNode(e);         
-        // node.appendChild(textnode);
-        // ele.appendChild(node);
-      });
-    } else {
-      element = document.createElement(e);
-      element.setAttribute('class', 'validate text-danger ' + a[0]);
-      a[1].map(function (e, f) {
-        var node = document.createElement("p");
-        var textnode = document.createTextNode(e);
-        node.appendChild(textnode);
-        element.appendChild(node);
-      }); // element.append(a[1][0]);           
-
-      var input = document.querySelector('[name="' + a[0] + '"]');
-      if (input) input.parentNode.insertBefore(element, input.nextSibling);
-    }
-  });
-};
-
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /**
  * Next, we will create a fresh React component instance and attach it to
@@ -64654,8 +64617,18 @@ function (_Component) {
         document.getElementById("successAfter").style.display = "block";
         document.getElementById("successMsg").innerHTML = res.data.message;
         document.getElementById("formData").reset();
-      }).catch(function (error) {//handleErrors(error);
-        // this.setState({'processing':false});    
+      }).catch(function (error) {
+        console.log(error.response.data.errors);
+        Object.keys(error.response.data.errors).map(function (a) {
+          //console.log(error.response.data.errors[a]);
+          var element = document.querySelector("small." + a);
+          console.log(element); // a[1].map(function(b){
+          //     console.log(b)
+          //     console.log(a[0])
+          // })  
+
+          element.innerHTML = error.response.data.errors[a];
+        });
       });
     }
   }, {
@@ -64701,6 +64674,8 @@ function (_Component) {
         className: "form-control",
         placeholder: "Full name",
         type: "text"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "text-danger name error"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
