@@ -10543,3 +10543,12 @@ nav.navbar.navbar-expand-sm.bg-dark.navbar-dark {
   margin-bottom: 15px;
 }
 
+small.text-danger.error {
+  position: absolute;
+  top: 33px;
+}
+
+.form-test {
+  position: relative;
+}
+

@@ -9,6 +9,8 @@ export default class Register extends Component {
 
     OnSubmit(event) {
         // console.log(event)
+        var element = document.getElementsByClassName("small.error");
+        element.innerHTML = '';
         event.preventDefault();
     	var data = serializeForm(event.target);
     	axios.post('/user-register',data)
@@ -20,22 +22,12 @@ export default class Register extends Component {
 
         }) 
         .catch(error=>{
-            console.log(error.response.data.errors)
+           // console.log(error.response.data.errors)
 
-         Object.keys(error.response.data.errors).map(function(a){  
-                //console.log(error.response.data.errors[a]);
-                 var element = document.querySelector("small." + a)
-                console.log(element)
-
-
-                // a[1].map(function(b){
-                //     console.log(b)
-                //     console.log(a[0])
-                // })  
-
-
-                 element.innerHTML = error.response.data.errors[a]
-            })
+         Object.keys(error.response.data.errors).map(function(a){ 
+          var element = document.querySelector("small." + a)
+          element.innerHTML = error.response.data.errors[a]
+         })
           
         })
     }
@@ -57,55 +49,78 @@ export default class Register extends Component {
 	<h4 className="card-title mt-3 text-center">Create Account</h4>
 	
 <form id="formData" onSubmit={this.OnSubmit}>
-	
+	<div className="form-test">
 	<div className="form-group input-group">
 		<div className="input-group-prepend">
 		    <span className="input-group-text"> <i className="fa fa-user"></i> </span>
 		 </div>
         <input name="name" className="form-control" placeholder="Full name" type="text" />
-        <small className="text-danger name error"></small>
     </div> 
+    <small className="text-danger name error"></small>
+    </div>
+
+    <div className="form-test">
     <div className="form-group input-group">
     	<div className="input-group-prepend">
 		    <span className="input-group-text"> <i className="fa fa-envelope"></i> </span>
 		 </div>
         <input name="email" className="form-control" placeholder="Email address" type="email" />
-    </div> 
+    </div>
+    <small className="text-danger email error"></small>
+    </div>
+
+<div className="form-test">
     <div className="form-group input-group">
     	<div className="input-group-prepend">
 		    <span className="input-group-text"> <i className="fa fa-phone"></i> </span>
 		</div>
 		<select name="country_code" className="custom-select" style={{maxWidth:'120px'}}>
+            <option value=''>Select..</option>
 		    <option value="+971">+971</option>
 		    <option value="+972">+972</option>
 		    <option value="+198">+198</option>
 		    <option value="+701">+701</option>
 		</select>
     	<input name="phone" className="form-control" placeholder="Phone number" type="text" />
-    </div> 
+    </div>
+    <small className="text-danger phone country_code error"></small>
+    </div>
+
+<div className="form-test">
     <div className="form-group input-group">
     	<div className="input-group-prepend">
 		    <span className="input-group-text"> <i className="fa fa-building"></i> </span>
 		</div>
 		<select name="job_type" className="form-control">
-			<option > Select job type</option>
+			<option value=''>Select job type</option>
 			<option value="Designer">Designer</option>
 			<option value="Manager">Manager</option>
 			<option value="Accaunting">Accaunting</option>
 		</select>
 	</div> 
+    <small className="text-danger job_type error"></small> 
+    </div>
+
+<div className="form-test">
     <div className="form-group input-group">
     	<div className="input-group-prepend">
 		    <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
 		</div>
         <input className="form-control" name="password" placeholder="Create password" type="password" />
-    </div> 
+    </div>
+    <small className="text-danger password error"></small>
+    </div>
+
+<div className="form-test">
     <div className="form-group input-group">
     	<div className="input-group-prepend">
 		    <span className="input-group-text"> <i className="fa fa-lock"></i> </span>
 		</div>
         <input className="form-control" name="confirm_password" placeholder="Repeat password" type="password" />
-    </div> 
+    </div>
+    <small className="text-danger confirm_password error"></small>
+    </div>
+
     <div className="form-group">
         <button type="submit" className="btn btn-primary btn-block"> Create Account  </button>
     </div> 

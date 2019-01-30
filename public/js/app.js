@@ -64610,6 +64610,8 @@ function (_Component) {
     key: "OnSubmit",
     value: function OnSubmit(event) {
       // console.log(event)
+      var element = document.getElementsByClassName("small.error");
+      element.innerHTML = '';
       event.preventDefault();
       var data = serializeForm(event.target);
       axios.post('/user-register', data).then(function (res) {
@@ -64618,15 +64620,9 @@ function (_Component) {
         document.getElementById("successMsg").innerHTML = res.data.message;
         document.getElementById("formData").reset();
       }).catch(function (error) {
-        console.log(error.response.data.errors);
+        // console.log(error.response.data.errors)
         Object.keys(error.response.data.errors).map(function (a) {
-          //console.log(error.response.data.errors[a]);
           var element = document.querySelector("small." + a);
-          console.log(element); // a[1].map(function(b){
-          //     console.log(b)
-          //     console.log(a[0])
-          // })  
-
           element.innerHTML = error.response.data.errors[a];
         });
       });
@@ -64662,6 +64658,8 @@ function (_Component) {
         id: "formData",
         onSubmit: this.OnSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-test"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -64674,9 +64672,11 @@ function (_Component) {
         className: "form-control",
         placeholder: "Full name",
         type: "text"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "text-danger name error"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-test"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -64689,7 +64689,11 @@ function (_Component) {
         className: "form-control",
         placeholder: "Email address",
         type: "email"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "text-danger email error"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-test"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -64704,6 +64708,8 @@ function (_Component) {
           maxWidth: '120px'
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }, "Select.."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "+971"
       }, "+971"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "+972"
@@ -64716,7 +64722,11 @@ function (_Component) {
         className: "form-control",
         placeholder: "Phone number",
         type: "text"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "text-danger phone country_code error"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-test"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -64727,13 +64737,19 @@ function (_Component) {
       }), " ")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("select", {
         name: "job_type",
         className: "form-control"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", null, " Select job type"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
+        value: ""
+      }, "Select job type"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "Designer"
       }, "Designer"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "Manager"
       }, "Manager"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("option", {
         value: "Accaunting"
-      }, "Accaunting"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "Accaunting"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "text-danger job_type error"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-test"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -64746,7 +64762,11 @@ function (_Component) {
         name: "password",
         placeholder: "Create password",
         type: "password"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "text-danger password error"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-test"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group input-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "input-group-prepend"
@@ -64759,6 +64779,8 @@ function (_Component) {
         name: "confirm_password",
         placeholder: "Repeat password",
         type: "password"
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "text-danger confirm_password error"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
